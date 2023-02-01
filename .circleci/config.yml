@@ -256,7 +256,8 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-         key: [backend-build]
+          key: 
+           - backend-build
       - run:
           name: Run migrations
           command: |
