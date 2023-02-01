@@ -7,10 +7,6 @@
     update_cache: yes
     cache_valid_time: 86400
 
-- name: remove uneed dependencies
-  become: yes
-  apt:
-    autoremove: yes
 - name: "install dependencies."
   become: true
   apt:
@@ -37,11 +33,6 @@
     production: yes
     state: present
 
-- name: "extract artifact"
-  become: yes 
-  unarchive:
-    src: files/artifact.tar.gz
-    dest: .
 
 - name: "start app "
   become: yes
