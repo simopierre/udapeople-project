@@ -219,15 +219,6 @@ jobs:
   configure-infrastructure:
     docker:
       - image: python:3.7-alpine3.11
-        environment:
-          ENVIRONMENT: "production"
-          TYPEORM_CONNECTION: $TYPEORM_CONNECTION
-          TYPEORM_HOST: $TYPEORM_HOST
-          TYPEORM_USERNAME: $TYPEORM_USERNAME
-          TYPEORM_PASSWORD: $TYPEORM_PASSWORD
-          TYPEORM_DATABASE: $TYPEORM_DATABASE
-          TYPEORM_PORT: $TYPEORM_PORT
-          TYPEORM_ENTITIES: $TYPEORM_ENTITIES
     steps:
       - checkout
       - add_ssh_keys:
@@ -246,9 +237,24 @@ jobs:
       - run:
           name: Configure server
           command: |
+              # add environnement variables to server
+            echo ENVIRONMENT=production > backend/.env
+            echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> backend/.env
+            echo TYPEORM_HOST=$TYPEORM_HOST >> backend/.env
+            echo TYPEORM_USERNAME=$TYPEORM_USERNAME >> backend/.env
+            echo TYPEORM_PASSWORD=$TYPEORM_PASSWORD >> backend/.env
+            echo TYPEORM_DATABASE=$TYPEORM_DATABASE >> backend/.env
+            echo TYPEORM_PORT=$TYPEORM_PORT >> backend/.env
+            echo TYPEORM_ENTITIES=$TYPEORM_ENTITIES >> backend/.env
+            echo TYPEORM_MIGRATIONS_DIR=$TYPEORM_MIGRATIONS_DIR >> backend/.env
+            cat backend/.env
             cat ~/project/.circleci/ansible/inventory.txt
             export ANSIBLE_HOST_KEY_CHECKING=False
             ansible-playbook -i ~/project/.circleci/ansible/inventory.txt ~/project/.circleci/ansible/configure-server.yml 
+      - persist_to_workspace:
+          root: ~/
+          paths: 
+            - project/backend/
       - destroy-environment:
           workflow_id: '${CIRCLE_WORKFLOW_ID:0:7}' 
 
@@ -259,6 +265,8 @@ jobs:
       - checkout
       - restore_cache:
           keys: [backend-build]
+      - attach_workspace:
+          at: ~/
       - run:
           name: Run migrations
           command: |
@@ -335,13 +343,14 @@ jobs:
       - checkout
       - add_ssh_keys:
           fingerprints: ["d1:d2:da:15:2d:f4:53:d1:21:67:9f:16:5f:7a:0d:b4"]
-      - restore_cache:
-          keys:
-            - build-backend
+      
       - run:
           name: Install dependencies
           command: |
             apk add --update  ansible nodejs npm tar gzip
+      - restore_cache:
+          keys:
+            - build-backend
       - attach_workspace: 
           at: ~/
       - run:

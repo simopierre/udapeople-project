@@ -8,11 +8,11 @@
         - rsync
       state: present
       
- - name: "extract artifact"
-  become: yes 
-  unarchive:
-    src: files/artifact.tar.gz
-    dest: .
+  - name: "extract artifact"
+    become: yes 
+    unarchive:
+      src: files/artifact.tar.gz
+      dest: .
 
   - name: "run server"
     become: true
