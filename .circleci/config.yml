@@ -253,10 +253,9 @@ jobs:
 
   run-migrations:
     docker:
-      - image: circleci/node:13.8.0
+      - image: sleavely/node-awscli:14.x
     steps:
       - checkout
-      - dependencies
       - restore_cache:
           keys: [backend-build]
       - run:
@@ -266,6 +265,7 @@ jobs:
             npm install 
             npm run build
             npm run migrations > migrations_dump.txt
+            cat migrations_dump.txt
       - run:
           name: Sending migration status to kvdb
           command: |
