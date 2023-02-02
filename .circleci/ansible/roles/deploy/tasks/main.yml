@@ -14,14 +14,14 @@
   become: yes
   synchronize:
     src: ../../backend/dist
-    dest: /home/ubuntu/udapeople_app
+    dest: udapeople_app
     recursive: true
 
 - name: "copy node_modules"
   become: yes
   synchronize:
     src: ../../backend/node_modules
-    dest: /home/ubuntu/udapeople_app
+    dest: udapeople_app
     recursive: true
 
 - name: "delete anything that might already be running"
@@ -33,12 +33,12 @@
   become: true
   command: pm2 start -f ./main.js
   args:
-    chdir: /home/ubuntu/udapeople_app/dist
+    chdir: udapeople_app/dist
 
-- name: "Configure pm2 to start as service"
-  become: true
-  shell: |
-    env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp /home/ubuntu
+# - name: "Configure pm2 to start as service"
+#   become: true
+#   shell: |
+#     env PATH=$PATH:/usr/local/bin pm2 startup systemd -u ubuntu --hp .
 
   environment:
      ENVIRONMENT: production
