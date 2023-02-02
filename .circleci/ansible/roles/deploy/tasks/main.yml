@@ -6,7 +6,7 @@
     name: 
       - openssh
       - rsync
-      state: present
+    state: present
 - name: "show remote environment"
   shell: env
 
