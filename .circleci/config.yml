@@ -237,7 +237,7 @@ jobs:
       - run:
           name: Configure server
           command: |
-              # add environnement variables to server
+            # add environnement variables to server
             echo ENVIRONMENT=production > backend/.env
             echo TYPEORM_CONNECTION=$TYPEORM_CONNECTION >> backend/.env
             echo TYPEORM_HOST=$TYPEORM_HOST >> backend/.env
