@@ -1,4 +1,12 @@
 ---
+- name: install rsync on the ansible controller
+  become: yes
+  connection: local
+  package:
+    name: 
+      - openssh
+      - rsync
+      state: present
 - name: "show remote environment"
   shell: env
 
