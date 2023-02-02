@@ -341,7 +341,7 @@ jobs:
       - run:
           name: Install dependencies
           command: |
-            apk add --update -no-cache ansible nodejs npm tar gzip
+            apk add --upgrade -no-cache ansible nodejs npm tar gzip
       - attach_workspace: 
           at: ~/
       - run:
