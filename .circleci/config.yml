@@ -432,10 +432,11 @@ jobs:
           name: Store old WorkflowID in kvdb.io for cleanup phase
           working_directory: ./.circleci/files
           command: |
-            WorkflowID=$(aws cloudformation \
+            oldWorkflowID=$(aws cloudformation \
               list-exports --query "Exports[?Name==\`WorkflowID\`].Value" \
               --no-paginate --output text)
-            curl -d "$WorkflowID" https://kvdb.io/NThE9CNW5wyj44nnkLyMTJ/workflowid 
+            echo "Old Wokflow ID: $oldWorkflowID"
+            curl -d "$oldWorkflowID" https://kvdb.io/NThE9CNW5wyj44nnkLyMTJ/oldWorkflowid 
       - run:
           name: Update cloudfront 
           working_directory: ./.circleci/files
@@ -457,7 +458,7 @@ jobs:
       - run:
           name: Clean up old environment
           command: |
-            OldWorkflowID=$(curl --insecure https://kvdb.io/NThE9CNW5wyj44nnkLyMTJ/workflowid)
+            OldWorkflowID=$(curl --insecure https://kvdb.io/NThE9CNW5wyj44nnkLyMTJ/oldWorkflowid)
             CurrentWorkflowID=${CIRCLE_WORKFLOW_ID:0:7}
             echo OldWorkflowID: "${OldWorkflowID}"
             echo " "
@@ -472,6 +473,7 @@ jobs:
             else
               echo "$OldWorkflowID == $CurrentWorkflowID => *** nothing to do ..."
             fi    
+
 
 workflows:
   default:
