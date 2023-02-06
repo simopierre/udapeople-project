@@ -2,13 +2,13 @@ Public Url to GitHub repository  [URL01]
 https://github.com/simopierre/udapeople-project
 
 Public URL for your S3 Bucket  [URL02]
-http://udapeople-b664974.s3-website-us-east-1.amazonaws.com
+http://udapeople-60866b2.s3-website-us-east-1.amazonaws.com
 
 URL of cloudfront [URL03]
 http://d1gcaj8w0m8ezf.cloudfront.net
 
 URL of healthy response of the backend [URL04]
-http://3.239.246.193:3030/api/status
+http://3.80.19.255:3030/api/status
 
 URL of prometheus server [URL05]
 http://ec2-18-207-1-6.compute-1.amazonaws.com:9090/targets
